@@ -15,7 +15,22 @@
         <p id="message"></p>
         <p class="attempts">Attempts: <span id="attempts">0</span></p>
         <button id="reset" style="display:none;">Start New Game</button>
+        <button id="change-name" style="margin-top: 15px;">Change Name</button>
     </div>
+
+    <div id="leaderboard-container">
+        <h2>Leaderboard</h2>
+        <ul id="leaderboard-list"></ul>
+    </div>
+
+    <div id="name-modal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome! Please enter your name:</h2>
+            <input type="text" id="name-input" placeholder="Your name" maxlength="20" />
+            <button id="save-name" disabled>Save</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
