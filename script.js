@@ -6,6 +6,15 @@ const submitButton = document.getElementById('submit-guess');
 const message = document.getElementById('message');
 const attemptsDisplay = document.getElementById('attempts');
 const resetButton = document.getElementById('reset');
+const changeNameButton = document.getElementById('change-name');
+const leaderboardList = document.getElementById('leaderboard-list');
+
+const nameModal = document.getElementById('name-modal');
+const nameInput = document.getElementById('name-input');
+const saveNameButton = document.getElementById('save-name');
+
+let userName = localStorage.getItem('userName') || '';
+let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
 
 function startNewGame() {
     targetNumber = Math.floor(Math.random() * 100) + 1;
@@ -33,12 +42,14 @@ function checkGuess() {
     attemptsDisplay.textContent = attempts;
 
     if (guess === targetNumber) {
-        message.textContent = '🎉 Congratulations! You guessed the correct number! 🎉';
+        message.textContent = `🎉 Congratulations, ${userName}! You guessed the correct number! 🎉`;
         message.style.color = '#4caf50';
         document.body.classList.add('win-effect');
         resetButton.style.display = 'inline-block';
         guessInput.disabled = true;
         submitButton.disabled = true;
+        updateLeaderboard(userName, attempts);
+        renderLeaderboard();
     } else {
         let diff = Math.abs(targetNumber - guess);
         if (diff <= 5) {
@@ -84,4 +95,71 @@ guessInput.addEventListener('keydown', (e) => {
     }
 });
 
-startNewGame();
+changeNameButton.addEventListener('click', () => {
+    localStorage.removeItem('userName');
+    userName = '';
+    showNameModal();
+});
+
+saveNameButton.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    if (name.length > 0) {
+        userName = name;
+        localStorage.setItem('userName', userName);
+        hideNameModal();
+        startNewGame();
+        renderLeaderboard();
+    }
+});
+
+nameInput.addEventListener('input', () => {
+    saveNameButton.disabled = nameInput.value.trim() === '';
+});
+
+function showNameModal() {
+    nameModal.style.display = 'flex';
+    nameInput.value = '';
+    saveNameButton.disabled = true;
+    nameInput.focus();
+}
+
+function hideNameModal() {
+    nameModal.style.display = 'none';
+}
+
+function updateLeaderboard(name, tries) {
+    const existingIndex = leaderboard.findIndex(entry => entry.name === name);
+    if (existingIndex !== -1) {
+        if (tries < leaderboard[existingIndex].tries) {
+            leaderboard[existingIndex].tries = tries;
+        }
+    } else {
+        leaderboard.push({ name, tries });
+    }
+    leaderboard.sort((a, b) => a.tries - b.tries);
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+}
+
+function renderLeaderboard() {
+    leaderboardList.innerHTML = '';
+    leaderboard.forEach(entry => {
+        const li = document.createElement('li');
+        li.textContent = entry.name;
+        const span = document.createElement('span');
+        span.textContent = entry.tries;
+        li.appendChild(span);
+        leaderboardList.appendChild(li);
+    });
+}
+
+function init() {
+    if (!userName) {
+        showNameModal();
+    } else {
+        hideNameModal();
+        startNewGame();
+        renderLeaderboard();
+    }
+}
+
+init();
