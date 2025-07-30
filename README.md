@@ -1,3 +1,5 @@
+Link to the app : https://number-guessingi.netlify.app/
+
 🎯 Number Guessing Game
 📌 Project Overview
 A fun and interactive number guessing game built using HTML, CSS, and JavaScript. The player guesses a number between 1 and 100, with hints and real-time feedback provided.
