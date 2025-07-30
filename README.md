@@ -1,4 +1,3 @@
-Link to the app : https://number-guessingi.netlify.app/
 
 🎯 Number Guessing Game
 📌 Project Overview
@@ -53,6 +52,13 @@ Clean, responsive layout for desktop and mobile
 
 👨‍💻 Author
 Aaditya Nahar Jain
+
+Link to the app : https://number-guessingi.netlify.app/
+Connect me on LinkedIn for new Updates 
+LinkedIn: https://www.linkedin.com/in/aaditya-nahar-jain-32014b370/
+
+
+
 
 📄 License
 This project is licensed under the MIT License – free to use, modify, and share with attribution.
